@@ -97,15 +97,15 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             int yfinal = 0;
             int y = 0;
             if (nivel1){
-                    y = ((int) (Math.random() * 100)) + 165;
+                    y = ((int) (Math.random() * 100)) + 155;
                     yfinal =this.getHeight() - y - 485;
                 }
                 else if (nivel2){
-                    y = ((int) (Math.random() * 120)) + 165;
+                    y = ((int) (Math.random() * 120)) + 155;
                     yfinal =this.getHeight() - y - 460;
                 }
                 else if (nivel3){
-                    y = ((int) (Math.random() * 140)) + 165;
+                    y = ((int) (Math.random() * 140)) + 155;
                     yfinal =this.getHeight() - y - 425;
                 }
             
@@ -166,10 +166,10 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             (flappy.getImagenes()).actualiza(tiempoActual);
 
             if (juega) {
-                avance = (vy + (gravedad * contgravedad));
-                contgravedad++;
-                if (avance > 7) {
-                    avance = 7;
+                avance = (vy + (gravedad * (contgravedad/3)));
+                contgravedad+=2;
+                if (avance > 8) {
+                    avance = 8;
                 }
                 flappy.setPosY(flappy.getPosY() + avance);
                 if (flappy.getPosY() < 0) {
@@ -212,15 +212,15 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             if (actualA.getPosX() + actualA.getWidth() < 0) {
                 int y = 0;
                 if (nivel1){
-                    y = ((int) (Math.random() * 100)) + 165;
+                    y = ((int) (Math.random() * 100)) + 155;
                     actualA.setPosY(this.getHeight() - y - 485);
                 }
                 else if (nivel2){
-                    y = ((int) (Math.random() * 120)) + 165;
+                    y = ((int) (Math.random() * 120)) + 155;
                     actualA.setPosY(this.getHeight() - y - 460);
                 }
                 else if (nivel3){
-                    y = ((int) (Math.random() * 140)) + 165;
+                    y = ((int) (Math.random() * 140)) + 155;
                     actualA.setPosY(this.getHeight() - y - 425);
                 }
                 actualB.setPosY(this.getHeight() - y);
@@ -315,7 +315,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
                 juega = true;
             }
             contgravedad = 0;
-            vy = -10;
+            vy = -7;
         }
 
     }
@@ -375,7 +375,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             tubosA.clear();
             tubosB.clear();
             for (int i = 1; i <= tam; i++) {
-                int y = ((int) (Math.random() * 150)) + 165;
+                int y = ((int) (Math.random() * 90)) + 165;
                 tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y - 485, tuboA));
                 tubosB.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y, tuboB));
             }
