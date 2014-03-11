@@ -6,10 +6,10 @@ package examen2;
  * @author Oscar Abraham Rodriguez Quintanilla, Arturo Armando Gonzalez
  * Fernandez
  */
+import java.awt.Color;
 import javax.swing.JFrame;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -55,6 +55,9 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
     private boolean inicio;
     private boolean gameover;
     private boolean juega;
+    private boolean nivel1;
+    private boolean nivel2;
+    private boolean nivel3;
 
     private LinkedList<BaseEnemigo> tubosA;
     private LinkedList<BaseEnemigo> tubosB;
@@ -65,6 +68,9 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
      * usarse en el <code>Applet</code> y se definen funcionalidades.
      */
     public void init() {
+        nivel1 = true;
+        nivel2 = false;
+        nivel3 = false;
         juega = false;
         contgravedad = 1;
         gravedad = 1;
@@ -88,8 +94,22 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
         tubosA = new LinkedList();
         tubosB = new LinkedList();
         for (int i = 1; i <= 3; i++) {
-            int y = ((int) (Math.random() * 150)) + 165;
-            tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y - 425, tuboA));
+            int yfinal = 0;
+            int y = 0;
+            if (nivel1){
+                    y = ((int) (Math.random() * 100)) + 165;
+                    yfinal =this.getHeight() - y - 485;
+                }
+                else if (nivel2){
+                    y = ((int) (Math.random() * 120)) + 165;
+                    yfinal =this.getHeight() - y - 460;
+                }
+                else if (nivel3){
+                    y = ((int) (Math.random() * 140)) + 165;
+                    yfinal =this.getHeight() - y - 425;
+                }
+            
+            tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), yfinal, tuboA));
             tubosB.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y, tuboB));
         }
         flappy = new Flappy(-40, -40);
@@ -161,7 +181,21 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
                     BaseEnemigo actualB = (BaseEnemigo) (tubosB.get(i));
                     actualA.setPosX(actualA.getPosX() - 2);
                     actualB.setPosX(actualA.getPosX() - 2);
+                    if (actualA.getPosX()== flappy.getPosX()+1){
+                        flappy.setScore(flappy.getScore()+1);
+                    }
+                    
                 }
+            }
+            if (flappy.getScore() > 8 && flappy.getScore() <= 18) {
+                nivel1 = false;
+                nivel2 = true;
+                nivel3 = false;
+            }
+            if (flappy.getScore() > 18) {
+                nivel1 = false;
+                nivel2 = false;
+                nivel3 = true;
             }
         }
 
@@ -176,8 +210,19 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             BaseEnemigo actualA = (BaseEnemigo) (tubosA.get(i));
             BaseEnemigo actualB = (BaseEnemigo) (tubosB.get(i));
             if (actualA.getPosX() + actualA.getWidth() < 0) {
-                int y = ((int) (Math.random() * 150)) + 165;
-                actualA.setPosY(this.getHeight() - y - 425);
+                int y = 0;
+                if (nivel1){
+                    y = ((int) (Math.random() * 100)) + 165;
+                    actualA.setPosY(this.getHeight() - y - 485);
+                }
+                else if (nivel2){
+                    y = ((int) (Math.random() * 120)) + 165;
+                    actualA.setPosY(this.getHeight() - y - 460);
+                }
+                else if (nivel3){
+                    y = ((int) (Math.random() * 140)) + 165;
+                    actualA.setPosY(this.getHeight() - y - 425);
+                }
                 actualB.setPosY(this.getHeight() - y);
                 actualA.setPosX(446);
                 actualB.setPosX(446);
@@ -284,8 +329,10 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
      * @param g es el <code>objeto grafico</code> usado para dibujar.
      */
     public void paint1(Graphics g) {
+        
         if (piso != null) {
             g.drawImage(fondo1, 0, 0, this);
+            
             for (int i = 0; i < tubosA.size(); i++) {
                 BaseEnemigo actualA = (BaseEnemigo) (tubosA.get(i));
                 BaseEnemigo actualB = (BaseEnemigo) (tubosB.get(i));
@@ -302,6 +349,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
                 g.drawImage(pierdes, this.getWidth() / 2 - pierdes.getWidth(this) / 2, this.getHeight() / 2 - 130, this);
                 g.drawImage(playAgain, this.getWidth() / 2 - playAgain.getWidth(this) / 2, this.getHeight() / 2, this);
             }
+            g.drawString(""+ flappy.getScore(), 50, 50);
         } else {
             //Da un mensaje mientras se carga el dibujo	
             g.drawString("No se cargo la imagen..", 20, 20);
@@ -319,12 +367,16 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             juega = false;
             pausa = false;
             inicio = true;
+            nivel1=true;
+            nivel2=false;
+            nivel3=false;
+            flappy.setScore(0);
             int tam = tubosA.size();
             tubosA.clear();
             tubosB.clear();
             for (int i = 1; i <= tam; i++) {
                 int y = ((int) (Math.random() * 150)) + 165;
-                tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y - 425, tuboA));
+                tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y - 485, tuboA));
                 tubosB.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y, tuboB));
             }
         }

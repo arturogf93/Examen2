@@ -15,6 +15,8 @@ import java.awt.Toolkit;
  */
 public class Flappy extends Base {
 
+        private static int score;
+        
     public Flappy(int posX, int posY) {
         super(posX, posY);
         Image imag1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/Flappy1.png"));
@@ -23,6 +25,14 @@ public class Flappy extends Base {
         (this.getImagenes()).sumaCuadro(imag1, 70);
         (this.getImagenes()).sumaCuadro(imag2, 70);
         (this.getImagenes()).sumaCuadro(imag3, 70);
+    }
+    
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getScore() {
+        return this.score;
     }
     
 }
