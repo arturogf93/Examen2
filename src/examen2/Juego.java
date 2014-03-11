@@ -1,8 +1,6 @@
 package examen2;
 
-
 //hola
-
 /**
  *
  * @author Oscar Abraham Rodriguez Quintanilla, Arturo Armando Gonzalez
@@ -23,6 +21,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.LinkedList;
 import java.awt.Font;
+import java.awt.Rectangle;
 
 public class Juego extends JFrame implements Runnable, KeyListener, MouseListener, MouseMotionListener {
 
@@ -34,29 +33,32 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
     private Graphics dbg;               //Objeto tipo Graphics
     private Image dbImage;              //Imagen para el doblebuffer 
     private long tiempoActual;          //Long para el tiempo del applet
-    
+
     private Piso piso;
     private Flappy flappy;
-    
+
     private Image fondo1;               //imagen del principio
     private Image tuboA;
     private Image tuboB;
     private Image tapTap;
     private Image getReady;
-    
+    private Image titulo;
+    private Image pierdes;
+    private Image playAgain;
+
     private int vy;
     private int gravedad;
     private int avance;
     private int contgravedad;
-    
+
     private boolean pausa;              //Booleando para pausa
     private boolean inicio;
     private boolean gameover;
     private boolean juega;
-    
+
     private LinkedList<BaseEnemigo> tubosA;
     private LinkedList<BaseEnemigo> tubosB;
-    
+
     /**
      * Metodo <I>init</I> sobrescrito de la clase <code>Applet</code>.<P>
      * En este metodo se inizializan las variables o se crean los objetos a
@@ -64,7 +66,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
      */
     public void init() {
         juega = false;
-        contgravedad=1;
+        contgravedad = 1;
         gravedad = 1;
         this.setSize(286, 510);
         addKeyListener(this);           //Uso de las teclas
@@ -74,23 +76,26 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
         pausa = false;
         gameover = false;
         fondo1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/Background1.png"));
+        titulo = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/Titulo.png"));
         tuboA = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/TuboArriba.png"));
         tuboB = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/TuboAbajo.png"));
         tapTap = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/TapTap.png"));
         getReady = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/GetReady.png"));
-        piso= new Piso(0,this.getHeight()-112);
-        piso.setPosY(this.getHeight()-piso.getHeight());
+        pierdes = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/GameOver.png"));
+        playAgain = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/PlayAgain.png"));
+        piso = new Piso(0, this.getHeight() - 112);
+        piso.setPosY(this.getHeight() - piso.getHeight());
         tubosA = new LinkedList();
         tubosB = new LinkedList();
-        for (int i = 1; i <= 3;i++){
-            int y = ((int) (Math.random()*150)) +165;
-            tubosA.add(new BaseEnemigo(this.getWidth()+(160*i),this.getHeight()-y-445,tuboA));
-            tubosB.add(new BaseEnemigo(this.getWidth()+(160*i),this.getHeight()-y,tuboB));
+        for (int i = 1; i <= 3; i++) {
+            int y = ((int) (Math.random() * 150)) + 165;
+            tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y - 425, tuboA));
+            tubosB.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y, tuboB));
         }
-        flappy = new Flappy(-40,-40);
-        flappy.setPosX(this.getWidth()/2-80);
-        flappy.setPosY((this.getHeight()/2-flappy.getHeight()/2)-30);
-        
+        flappy = new Flappy(-40, -40);
+        flappy.setPosX(this.getWidth() / 2 - 80);
+        flappy.setPosY((this.getHeight() / 2 - flappy.getHeight() / 2) - 30);
+
     }
 
     public void start() {
@@ -135,27 +140,31 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
         tiempoActual += tiempoTranscurrido;
 
         //Actualiza la animación en base al tiempo transcurrido
-            //(bola.getImagenes()).actualiza(tiempoActual);
-        if (!pausa&&!gameover){
+        //(bola.getImagenes()).actualiza(tiempoActual);
+        if (!pausa && !gameover) {
             (piso.getImagenes()).actualiza(tiempoActual);
             (flappy.getImagenes()).actualiza(tiempoActual);
-            for (int i = 0; i < tubosA.size();i++){
-                BaseEnemigo actualA = (BaseEnemigo) (tubosA.get(i));
-                BaseEnemigo actualB = (BaseEnemigo) (tubosB.get(i));
-                actualA.setPosX(actualA.getPosX()-2);
-                actualB.setPosX(actualA.getPosX()-2);
-            }
-            
-            if (juega){
-                avance = (vy+(gravedad*contgravedad));
+
+            if (juega) {
+                avance = (vy + (gravedad * contgravedad));
                 contgravedad++;
-                if (avance > 5){
-                    avance = 5;
+                if (avance > 7) {
+                    avance = 7;
                 }
-                flappy.setPosY(flappy.getPosY()+avance);
+                flappy.setPosY(flappy.getPosY() + avance);
+                if (flappy.getPosY() < 0) {
+                    flappy.setPosY(0);
+                    vy = 0;
+                }
+                for (int i = 0; i < tubosA.size(); i++) {
+                    BaseEnemigo actualA = (BaseEnemigo) (tubosA.get(i));
+                    BaseEnemigo actualB = (BaseEnemigo) (tubosB.get(i));
+                    actualA.setPosX(actualA.getPosX() - 2);
+                    actualB.setPosX(actualA.getPosX() - 2);
+                }
             }
         }
-        
+
     }
 
     /**
@@ -163,28 +172,28 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
      * las orillas del <code>Applet</code>.
      */
     public void checaColision() {
-        for (int i = 0; i < tubosA.size();i++){
+        for (int i = 0; i < tubosA.size(); i++) {
             BaseEnemigo actualA = (BaseEnemigo) (tubosA.get(i));
             BaseEnemigo actualB = (BaseEnemigo) (tubosB.get(i));
-            if (actualA.getPosX()+actualA.getWidth()<0){
-                int y = ((int) (Math.random()*150)) +165;
-                actualA.setPosY(this.getHeight()-y-465);
-                actualB.setPosY(this.getHeight()-y);
+            if (actualA.getPosX() + actualA.getWidth() < 0) {
+                int y = ((int) (Math.random() * 150)) + 165;
+                actualA.setPosY(this.getHeight() - y - 425);
+                actualB.setPosY(this.getHeight() - y);
                 actualA.setPosX(446);
                 actualB.setPosX(446);
-            }        
-            if (actualA.intersecta(flappy)||actualB.intersecta(flappy)){
-                juega=false;
-                gameover=true;
+            }
+            if (actualA.intersecta(flappy) || actualB.intersecta(flappy)) {
+                juega = false;
+                gameover = true;
+                pausa = false;
+                inicio = false;
             }
         }
-        if (flappy.intersecta(piso)){
-            juega=false;
-            gameover=true;
+        if (flappy.intersecta(piso)) {
+            juega = false;
+            gameover = true;
         }
 
-        
-        
     }
 
     /**
@@ -253,17 +262,17 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
                 pausa = true;
             }
         }
-        if (e.getKeyCode() == KeyEvent.VK_SPACE){
-            if (inicio){
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            if (inicio) {
                 inicio = false;
             }
-            if (!juega){
-                juega=true;
+            if (!juega) {
+                juega = true;
             }
             contgravedad = 0;
             vy = -10;
         }
-        
+
     }
 
     /**
@@ -277,18 +286,22 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
     public void paint1(Graphics g) {
         if (piso != null) {
             g.drawImage(fondo1, 0, 0, this);
-            for (int i = 0; i < tubosA.size();i++){
+            for (int i = 0; i < tubosA.size(); i++) {
                 BaseEnemigo actualA = (BaseEnemigo) (tubosA.get(i));
                 BaseEnemigo actualB = (BaseEnemigo) (tubosB.get(i));
                 g.drawImage(actualA.getImagen(), actualA.getPosX(), actualA.getPosY(), this);
                 g.drawImage(actualB.getImagen(), actualB.getPosX(), actualB.getPosY(), this);
-            }            
+            }
             g.drawImage(piso.getImagen(), piso.getPosX(), piso.getPosY(), this);
-            if (inicio == true){
-               g.drawImage(tapTap,this.getWidth()/2-tapTap.getWidth(this)/2,this.getHeight()/2-tapTap.getHeight(this)/2,this);
-               g.drawImage(getReady,this.getWidth()/2-getReady.getWidth(this)/2,this.getHeight()/2-130,this);
+            if (inicio) {
+                g.drawImage(tapTap, this.getWidth() / 2 - tapTap.getWidth(this) / 2, this.getHeight() / 2 - tapTap.getHeight(this) / 2, this);
+                g.drawImage(getReady, this.getWidth() / 2 - getReady.getWidth(this) / 2, this.getHeight() / 2 - 120, this);
             }
             g.drawImage(flappy.getImagen(), flappy.getPosX(), flappy.getPosY(), this);
+            if (gameover) {
+                g.drawImage(pierdes, this.getWidth() / 2 - pierdes.getWidth(this) / 2, this.getHeight() / 2 - 130, this);
+                g.drawImage(playAgain, this.getWidth() / 2 - playAgain.getWidth(this) / 2, this.getHeight() / 2, this);
+            }
         } else {
             //Da un mensaje mientras se carga el dibujo	
             g.drawString("No se cargo la imagen..", 20, 20);
@@ -296,6 +309,25 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
     }
 
     public void mouseClicked(MouseEvent e) {
+        Rectangle boton = new Rectangle(this.getWidth() / 2 - playAgain.getWidth(this) / 2, this.getHeight() / 2, playAgain.getWidth(this), playAgain.getHeight(this));
+        int clicX = e.getX();
+        int clicY = e.getY();
+        if (boton.contains(clicX, clicY)) {
+            flappy.setPosX(this.getWidth() / 2 - 80);
+            flappy.setPosY((this.getHeight() / 2 - flappy.getHeight() / 2) - 30);
+            gameover = false;
+            juega = false;
+            pausa = false;
+            inicio = true;
+            int tam = tubosA.size();
+            tubosA.clear();
+            tubosB.clear();
+            for (int i = 1; i <= tam; i++) {
+                int y = ((int) (Math.random() * 150)) + 165;
+                tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y - 425, tuboA));
+                tubosB.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y, tuboB));
+            }
+        }
     }
 
     public void mouseEntered(MouseEvent e) {
