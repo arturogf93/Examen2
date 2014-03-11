@@ -5,7 +5,7 @@
  */
 
 package examen2;
-
+//hola
 /**
  *
  * @author Gonzalez
