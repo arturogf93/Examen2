@@ -117,9 +117,9 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
         getReady = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/GetReady.png"));
         pierdes = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/GameOver.png"));
         playAgain = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/PlayAgain.png"));
-        fly = new SoundClip("sounds/fly.wav");
-        choque = new SoundClip("sounds/choque.wav");
-        bing = new SoundClip("sounds/bing.wav");
+        fly = new SoundClip("Sounds/fly.wav");
+        choque = new SoundClip("Sounds/choque.wav");
+        bing = new SoundClip("Sounds/bing.wav");
         piso = new Piso(0, this.getHeight() - 112);
         piso.setPosY(this.getHeight() - piso.getHeight());
         tubosA = new LinkedList();
