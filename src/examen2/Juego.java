@@ -253,7 +253,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
                 nivelMensaje = false;
             }
 
-            if (flappy.getScore() > 18 && flappy.getScore() <= 20 && nivel3) {
+            if (flappy.getScore() > 19 && flappy.getScore() <= 22 && nivel3) {
                 nivel = 3;
                 nivelMensaje = true;
             } else if (flappy.getScore() > 20 && nivel3){
@@ -395,6 +395,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            fly.stop();
             if (inicio) {
                 inicio = false;
             }
@@ -403,7 +404,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             }
             contgravedad = 0;
             vy = -7;
-            fly.play();
+            fly.play(); 
         }
         if (e.getKeyCode() == KeyEvent.VK_G) {  //dejo de presionar la tecla de arriba
             if (!guarda) {
@@ -422,7 +423,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
      * @param g es el <code>objeto grafico</code> usado para dibujar.
      */
     public void paint1(Graphics g) {
-        g.setFont(new Font("TimesRoman", Font.BOLD, 30));
+        g.setFont(new Font("TimesRoman", Font.BOLD, 25));
         g.setColor(Color.WHITE);
         if (piso != null) {
             g.drawImage(fondo1, 0, 0, this);
@@ -451,7 +452,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             if (nivelMensaje) {
                 g.drawString("Nivel " + nivel, 10, 500);
             }
-            g.drawString("" + flappy.getScore(), this.getWidth() / 2, 50);
+            g.drawString("" + flappy.getScore(), this.getWidth() / 2-5, 100);
         } else {
             //Da un mensaje mientras se carga el dibujo	
             g.drawString("No se cargo la imagen..", 20, 20);
