@@ -138,13 +138,13 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             int y = 0;
             if (nivel1) {
                 y = ((int) (Math.random() * 100)) + 155;
-                yfinal = this.getHeight() - y - 455 - ((int) (Math.random() * 30));
+                yfinal = this.getHeight() - y - 470 - ((int) (Math.random() * 30));
             } else if (nivel2) {
                 y = ((int) (Math.random() * 120)) + 155;
-                yfinal = this.getHeight() - y - 430 - ((int) (Math.random() * 30));
+                yfinal = this.getHeight() - y - 445 - ((int) (Math.random() * 30));
             } else if (nivel3) {
                 y = ((int) (Math.random() * 140)) + 155;
-                yfinal = this.getHeight() - y - 395 - ((int) (Math.random() * 30));
+                yfinal = this.getHeight() - y - 410 - ((int) (Math.random() * 30));
             }
 
             tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), yfinal, tuboA));
@@ -304,13 +304,13 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
                 int y = 0;
                 if (nivel1) {
                     y = ((int) (Math.random() * 100)) + 155;
-                    actualA.setPosY(this.getHeight() - y - 455 - ((int) (Math.random() * 30)));
+                    actualA.setPosY(this.getHeight() - y - 470 - ((int) (Math.random() * 30)));
                 } else if (nivel2) {
                     y = ((int) (Math.random() * 120)) + 155;
-                    actualA.setPosY(this.getHeight() - y - 430 - ((int) (Math.random() * 30)));
+                    actualA.setPosY(this.getHeight() - y - 445 - ((int) (Math.random() * 30)));
                 } else if (nivel3) {
                     y = ((int) (Math.random() * 140)) + 155;
-                    actualA.setPosY(this.getHeight() - y - 395  - ((int) (Math.random() * 30)));
+                    actualA.setPosY(this.getHeight() - y - 410  - ((int) (Math.random() * 30)));
                 }
                 actualB.setPosY(this.getHeight() - y);
                 actualA.setPosX(446);
@@ -498,7 +498,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             tubosB.clear();
             for (int i = 1; i <= tam; i++) {
                 int y = ((int) (Math.random() * 90)) + 165;
-                tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y - 455  - ((int) (Math.random() * 30)), tuboA));
+                tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y - 470  - ((int) (Math.random() * 30)), tuboA));
                 tubosB.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y, tuboB));
             }
             choquesonido = false;
