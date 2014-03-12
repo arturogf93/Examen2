@@ -1,7 +1,5 @@
 package examen2;
 
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -80,6 +78,9 @@ public class Base extends Animacion {
         return (this.getImagenes()).getImagen();
     }
 
+    //@param  x es para conocer la posicion d x del punto tipo <code>int</code>
+    //@param  y es para conocer la posicion d x del punto tipo <code>int</code>
+    //@return regresa booleano de si esta dentro el punto o no <code>Boolean</code>
     public boolean dentro(int x, int y) {
         return this.getPerimetro().contains(x, y);
     }

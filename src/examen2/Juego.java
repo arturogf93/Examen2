@@ -84,9 +84,9 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
     private LinkedList<BaseEnemigo> tubosB;
 
     /**
-     * Metodo <I>init</I> sobrescrito de la clase <code>Applet</code>.<P>
+     * Metodo <I>init</I> sobrescrito de la clase <code>JFrame</code>.<P>
      * En este metodo se inizializan las variables o se crean los objetos a
-     * usarse en el <code>Applet</code> y se definen funcionalidades.
+     * usarse en el <code>Jframe</code> y se definen funcionalidades.
      */
     public void init() throws IOException {
         nivel1 = true;
@@ -154,6 +154,13 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
 
     }
 
+    /**
+     * Metodo <I>start</I> sobrescrito de la clase <code>Applet</code>.<P>
+     * En este metodo se crea e inicializa el hilo para la animacion este metodo
+     * es llamado despues del init o cuando el usuario visita otra pagina y
+     * luego regresa a la pagina en donde esta este <code>Applet</code>
+     *
+     */
     public void start() {
         // Declaras un hilo
         Thread th = new Thread(this);
@@ -225,7 +232,6 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
                         flappy.setScore(flappy.getScore() + 1);
                         bing.play();
                     }
-
                 }
             }
             if (flappy.getScore() > 8 && flappy.getScore() <= 18) {
@@ -242,21 +248,21 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             if (flappy.getScore() >= 0 && flappy.getScore() <= 2 && nivel1) {
                 nivel = 1;
                 nivelMensaje = true;
-            } else if (flappy.getScore() > 2 && nivel1){
+            } else if (flappy.getScore() > 2 && nivel1) {
                 nivelMensaje = false;
             }
-            
+
             if (flappy.getScore() > 9 && flappy.getScore() <= 11 && nivel2) {
                 nivel = 2;
                 nivelMensaje = true;
-            } else if (flappy.getScore() > 10 && nivel2){
+            } else if (flappy.getScore() > 10 && nivel2) {
                 nivelMensaje = false;
             }
 
             if (flappy.getScore() > 19 && flappy.getScore() <= 22 && nivel3) {
                 nivel = 3;
                 nivelMensaje = true;
-            } else if (flappy.getScore() > 20 && nivel3){
+            } else if (flappy.getScore() > 20 && nivel3) {
                 nivelMensaje = false;
             }
         }
@@ -404,7 +410,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             }
             contgravedad = 0;
             vy = -7;
-            fly.play(); 
+            fly.play();
         }
         if (e.getKeyCode() == KeyEvent.VK_G) {  //dejo de presionar la tecla de arriba
             if (!guarda) {
@@ -452,13 +458,18 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             if (nivelMensaje) {
                 g.drawString("Nivel " + nivel, 10, 500);
             }
-            g.drawString("" + flappy.getScore(), this.getWidth() / 2-5, 100);
+            g.drawString("" + flappy.getScore(), this.getWidth() / 2 - 5, 100);
         } else {
             //Da un mensaje mientras se carga el dibujo	
             g.drawString("No se cargo la imagen..", 20, 20);
         }
     }
 
+    /**
+     * Metodo mouseClicked sobrescrito de la interface MouseListener. En este
+     * metodo maneja el evento que se genera al hacer click con el mouse sobre
+     * algun componente. e es el evento generado al hacer click con el mouse.
+     */
     public void mouseClicked(MouseEvent e) {
         Rectangle boton = new Rectangle(this.getWidth() / 2 - playAgain.getWidth(this) / 2, this.getHeight() / 2, playAgain.getWidth(this), playAgain.getHeight(this));
         int clicX = e.getX();
@@ -487,22 +498,55 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
         }
     }
 
+    /**
+     * Metodo mouseEntered sobrescrito de la interface MouseListener. En este
+     * metodo maneja el evento que se genera cuando el mouse entra en algun
+     * componente. e es el evento generado cuando el mouse entra en algun
+     * componente.
+     */
     public void mouseEntered(MouseEvent e) {
     }
 
+    /**
+     * Metodo mouseExited sobrescrito de la interface MouseListener. En este
+     * metodo maneja el evento que se genera cuando el mouse sale de algun
+     * componente. e es el evento generado cuando el mouse sale de algun
+     * componente.
+     */
     public void mouseExited(MouseEvent e) {
     }
 
+    /**
+     * Metodo mousePressed sobrescrito de la interface MouseListener. En este
+     * metodo maneja el evento que se genera al presionar un botÃ³n del mouse
+     * sobre algun componente. e es el evento generado al presionar un botÃ³n
+     * del mouse sobre algun componente.
+     */
     public void mousePressed(MouseEvent e) {
     }
 
+    /**
+     * Metodo mouseReleased sobrescrito de la interface MouseListener. En este
+     * metodo maneja el evento que se genera al soltar un botÃ³n del mouse sobre
+     * algun componente. e es el evento generado al soltar un botÃ³n del mouse
+     * sobre algun componente.
+     */
     public void mouseReleased(MouseEvent e) {
     }
 
+    /**
+     * Metodo mouseDragged sobrescrito de la interface MouseMotionListener. En
+     * este metodo maneja el evento que se genera al mover un el mouse despues
+     * de dar clic y no soltarlo
+     */
     public void mouseDragged(MouseEvent e) {
 
     }
 
+    /**
+     * Metodo mouseMoved sobrescrito de la interface MouseMotionListener. En
+     * este metodo maneja el evento que se genera al mover el mouse
+     */
     public void mouseMoved(MouseEvent e) {
 
     }

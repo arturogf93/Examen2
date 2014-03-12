@@ -20,7 +20,7 @@ public class BaseEnemigo extends Animacion {
     private Image imagen;       //Objeto de tipo animacion
 
     //@param  posX es para saber la posicion x de tipo <code>int</code>
-    //@param  posY es para saber la posicion y detipo <code>int</code>
+    //@param  posY es para saber la posicion y de tipo <code>int</code>
     public BaseEnemigo(int posX, int posY, Image imagen) {       //constructor del objeto
         this.posX = posX;
         this.posY = posY;
@@ -73,6 +73,9 @@ public class BaseEnemigo extends Animacion {
         return this.imagen;
     }
 
+    //@param  x es para conocer la posicion d x del punto tipo <code>int</code>
+    //@param  y es para conocer la posicion d x del punto tipo <code>int</code>
+    //@return regresa booleano de si esta dentro el punto o no <code>Boolean</code>
     public boolean dentro(int x, int y) {
         return this.getPerimetro().contains(x, y);
     }
