@@ -46,9 +46,10 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
     private Image tuboB;
     private Image tapTap;
     private Image getReady;
-    private Image titulo;
+    //private Image titulo;
     private Image pierdes;
     private Image playAgain;
+    private Image iconoPausa;
 
     private SoundClip fly;
     private SoundClip choque;
@@ -110,13 +111,14 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
         newScore = false;
         nivelMensaje = false;
         fondo1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/Background1.png"));
-        titulo = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/Titulo.png"));
+        //titulo = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/Titulo.png"));
         tuboA = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/TuboArriba.png"));
         tuboB = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/TuboAbajo.png"));
         tapTap = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/TapTap.png"));
         getReady = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/GetReady.png"));
         pierdes = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/GameOver.png"));
         playAgain = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/PlayAgain.png"));
+        iconoPausa = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/pausa.png"));
         fly = new SoundClip("Sounds/fly.wav");
         choque = new SoundClip("Sounds/choque.wav");
         bing = new SoundClip("Sounds/bing.wav");
@@ -136,13 +138,13 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             int y = 0;
             if (nivel1) {
                 y = ((int) (Math.random() * 100)) + 155;
-                yfinal = this.getHeight() - y - 485;
+                yfinal = this.getHeight() - y - 455 - ((int) (Math.random() * 30));
             } else if (nivel2) {
                 y = ((int) (Math.random() * 120)) + 155;
-                yfinal = this.getHeight() - y - 460;
+                yfinal = this.getHeight() - y - 430 - ((int) (Math.random() * 30));
             } else if (nivel3) {
                 y = ((int) (Math.random() * 140)) + 155;
-                yfinal = this.getHeight() - y - 425;
+                yfinal = this.getHeight() - y - 395 - ((int) (Math.random() * 30));
             }
 
             tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), yfinal, tuboA));
@@ -302,13 +304,13 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
                 int y = 0;
                 if (nivel1) {
                     y = ((int) (Math.random() * 100)) + 155;
-                    actualA.setPosY(this.getHeight() - y - 485);
+                    actualA.setPosY(this.getHeight() - y - 455 - ((int) (Math.random() * 30)));
                 } else if (nivel2) {
                     y = ((int) (Math.random() * 120)) + 155;
-                    actualA.setPosY(this.getHeight() - y - 460);
+                    actualA.setPosY(this.getHeight() - y - 430 - ((int) (Math.random() * 30)));
                 } else if (nivel3) {
                     y = ((int) (Math.random() * 140)) + 155;
-                    actualA.setPosY(this.getHeight() - y - 425);
+                    actualA.setPosY(this.getHeight() - y - 395  - ((int) (Math.random() * 30)));
                 }
                 actualB.setPosY(this.getHeight() - y);
                 actualA.setPosX(446);
@@ -394,10 +396,12 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
      */
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_P) {  //cuando el usuario presiona p
-            if (pausa) {
-                pausa = false;
-            } else {
-                pausa = true;
+            if (!inicio){
+                if (pausa) {
+                    pausa = false;
+                } else {
+                    pausa = true;
+                }
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -410,6 +414,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             }
             contgravedad = 0;
             vy = -7;
+            if (juega&&!pausa&&!gameover)
             fly.play();
         }
         if (e.getKeyCode() == KeyEvent.VK_G) {  //dejo de presionar la tecla de arriba
@@ -458,6 +463,9 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             if (nivelMensaje) {
                 g.drawString("Nivel " + nivel, 10, 500);
             }
+            if (pausa){
+                g.drawImage(iconoPausa, this.getWidth() / 2 - iconoPausa.getWidth(this) / 2, this.getHeight() / 2 - iconoPausa.getHeight(this) / 2 - 20, this);
+            }
             g.drawString("" + flappy.getScore(), this.getWidth() / 2 - 5, 100);
         } else {
             //Da un mensaje mientras se carga el dibujo	
@@ -490,7 +498,7 @@ public class Juego extends JFrame implements Runnable, KeyListener, MouseListene
             tubosB.clear();
             for (int i = 1; i <= tam; i++) {
                 int y = ((int) (Math.random() * 90)) + 165;
-                tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y - 485, tuboA));
+                tubosA.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y - 455  - ((int) (Math.random() * 30)), tuboA));
                 tubosB.add(new BaseEnemigo(this.getWidth() + (160 * i), this.getHeight() - y, tuboB));
             }
             choquesonido = false;
